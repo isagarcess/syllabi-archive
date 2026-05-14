@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syllabi Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:#000000;
+  --ink2:#3a3a3a;
+  --ink3:#7a7a7a;
+  --paper:#ffffff;
+  --rule:#000000;
+  --serif:'EB Garamond',Georgia,serif;
+  --mono:'IBM Plex Mono',monospace;
+  --label-size:9px;
+  --label-track:.18em;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:15px;line-height:1.5;min-height:100vh}
+
+.wrap{max-width:860px;margin:0 auto;padding:0 32px 80px}
+
+/* MASTHEAD */
+.masthead{border-bottom:2px solid var(--rule);padding:32px 0 20px;margin-bottom:0}
+.masthead-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.archive-title{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:.01em;line-height:1.1}
+.archive-title em{font-style:italic}
+.archive-meta{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.masthead-desc{font-family:var(--mono);font-size:10px;color:var(--ink3);letter-spacing:.06em;margin-top:10px;text-transform:uppercase}
+
+/* CONTROLS */
+.controls{border-bottom:1px solid var(--rule);padding:14px 0;display:flex;gap:0;align-items:stretch;flex-wrap:wrap;row-gap:12px}
+.search-wrap{display:flex;align-items:center;gap:10px;flex:1;min-width:200px;border-right:1px solid var(--rule);padding-right:20px;margin-right:20px}
+.search-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3);white-space:nowrap}
+.search-input{background:transparent;border:none;outline:none;font-family:var(--mono);font-size:11px;color:var(--ink);width:100%;caret-color:var(--ink)}
+.search-input::placeholder{color:var(--ink3)}
+.filter-group{display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:1}
+.filter-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3);white-space:nowrap}
+.tag-filters{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.tf{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;padding:2px 0;border-bottom:1px solid transparent;transition:color .12s,border-color .12s;white-space:nowrap}
+.tf:hover{color:var(--ink)}
+.tf.active{color:var(--ink);border-bottom:1px solid var(--ink)}
+.add-btn{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);background:none;border:1px solid var(--ink3);cursor:pointer;padding:5px 12px;transition:all .12s;white-space:nowrap;margin-left:auto;align-self:center}
+.add-btn:hover{color:var(--ink);border-color:var(--ink)}
+
+/* SORT BAR */
+.sort-bar{display:flex;align-items:center;gap:16px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.sort-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
+.sb{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;padding:2px 0;border-bottom:1px solid transparent;transition:all .12s}
+.sb:hover{color:var(--ink)}
+.sb.active{color:var(--ink);border-bottom:1px solid var(--ink)}
+
+/* COL HEADERS */
+.col-head{display:grid;grid-template-columns:2fr 1.1fr .7fr .5fr 28px;gap:0;border-bottom:1px solid var(--rule);padding:8px 0 6px}
+.ch{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
+
+/* ENTRIES */
+.entry{border-bottom:1px solid var(--rule);cursor:pointer}
+.entry-row{display:grid;grid-template-columns:2fr 1.1fr .7fr .5fr 28px;gap:0;padding:11px 0;align-items:baseline}
+.entry-row:hover .et{text-decoration:underline;text-decoration-thickness:1px}
+.et{font-family:var(--serif);font-size:15px;font-weight:400;color:var(--ink);line-height:1.3;padding-right:16px}
+.et em{font-style:italic}
+.ei{font-family:var(--mono);font-size:10px;color:var(--ink2);letter-spacing:.03em}
+.ey{font-family:var(--mono);font-size:10px;color:var(--ink3)}
+.elang{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.eexp{font-family:var(--mono);font-size:14px;color:var(--ink3);text-align:center;user-select:none;transition:transform .2s;display:block;line-height:1}
+.entry.open .eexp{transform:rotate(45deg)}
+
+/* EXPANDED */
+.entry-body{display:none;padding:4px 0 20px}
+.entry.open .entry-body{display:grid;grid-template-columns:2fr 2.3fr;gap:24px}
+.eb-meta{display:flex;flex-direction:column;gap:7px}
+.em-row{display:flex;gap:0;align-items:baseline}
+.em-key{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3);min-width:88px}
+.em-val{font-family:var(--mono);font-size:10.5px;color:var(--ink2)}
+.tags-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);border:1px solid var(--ink3);padding:1px 5px;cursor:pointer;transition:all .1s}
+.tag:hover{color:var(--ink);border-color:var(--ink)}
+.entry-actions{display:flex;gap:16px;align-items:center;margin-top:12px}
+.pdf-link{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px;transition:color .1s}
+.pdf-link:hover{color:var(--ink3);border-color:var(--ink3)}
+.edit-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+.edit-btn:hover{color:var(--ink)}
+.notes-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.notes-text{font-family:var(--serif);font-size:14px;line-height:1.7;color:var(--ink2);font-style:italic}
+
+/* EMPTY / COUNT */
+.empty{padding:48px 0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.count{font-family:var(--mono);font-size:var(--label-size);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);padding:10px 0 0;text-align:right}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center;padding:24px}
+.modal-bg.open{display:flex}
+.modal{background:var(--paper);border:1px solid var(--rule);padding:32px;width:min(680px,100%);max-height:90vh;overflow-y:auto}
+.modal-title{font-family:var(--mono);font-size:var(--label-size);letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
+.form-grid .full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
+.field input,.field textarea{background:transparent;border:none;border-bottom:1px solid var(--rule);outline:none;font-family:var(--mono);font-size:11px;color:var(--ink);padding:6px 0;width:100%;resize:none;transition:border-color .15s}
+.field input:focus,.field textarea:focus{border-color:var(--ink)}
+.field textarea{min-height:80px;line-height:1.55}
+.field input::placeholder,.field textarea::placeholder{color:var(--ink3)}
+.modal-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px;border-top:1px solid var(--rule);padding-top:20px}
+.btn-cancel{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer}
+.btn-cancel:hover{color:var(--ink)}
+.btn-save{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:none;cursor:pointer;padding:8px 20px;transition:opacity .12s}
+.btn-save:hover{opacity:.75}
+.btn-del{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;transition:color .12s}
+.btn-del:hover{color:#c0392b}
+.required-note{font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:4px}
+
+/* EXPORT/IMPORT */
+.data-tools{border-top:1px solid var(--rule);margin-top:48px;padding-top:16px;display:flex;gap:16px;align-items:center}
+.dt-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
+.dt-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+.dt-btn:hover{color:var(--ink)}
+
+@media(max-width:640px){
+  .wrap{padding:0 16px 60px}
+  .col-head,.entry-row{grid-template-columns:1fr auto 28px}
+  .col-head .ch:nth-child(3),.col-head .ch:nth-child(4),
+  .entry-row .ey,.entry-row .elang{display:none}
+  .entry.open .entry-body{grid-template-columns:1fr}
+  .search-wrap{border-right:none;padding-right:0;margin-right:0}
+  .form-grid{grid-template-columns:1fr}
+  .form-grid .full{grid-column:1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <div class="masthead-top">
+      <div class="archive-title"><em>Syllabi Archive</em></div>
+      <div class="archive-meta">Global Index · Est. 2025</div>
+    </div>
+    <div class="masthead-desc">A research index of course syllabi from art and architecture programs worldwide</div>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-label">Search</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="title, instructor, institution…" autocomplete="off">
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Discipline</span>
+      <div class="tag-filters" id="tagFilters"></div>
+    </div>
+    <button class="add-btn" id="addBtn">+ Add entry</button>
+  </div>
+
+  <div class="sort-bar">
+    <span class="sort-label">Sort</span>
+    <button class="sb active" data-sort="newest">Newest</button>
+    <button class="sb" data-sort="oldest">Oldest</button>
+    <button class="sb" data-sort="title">Title A–Z</button>
+    <button class="sb" data-sort="institution">Institution</button>
+  </div>
+
+  <div class="col-head">
+    <div class="ch">Course / Instructor</div>
+    <div class="ch">Institution</div>
+    <div class="ch">Year</div>
+    <div class="ch">Lang</div>
+    <div class="ch"></div>
+  </div>
+
+  <div id="entriesList"></div>
+  <div class="count" id="countEl"></div>
+
+  <div class="data-tools">
+    <span class="dt-label">Data</span>
+    <button class="dt-btn" id="exportBtn">Export JSON</button>
+    <button class="dt-btn" id="importBtn">Import JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none">
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">New entry</div>
+    <div class="form-grid">
+      <div class="field full">
+        <label for="f-title">Course title <span style="color:var(--ink)">*</span></label>
+        <input id="f-title" type="text" placeholder="e.g. Structures of Space">
+      </div>
+      <div class="field">
+        <label for="f-instructor">Instructor</label>
+        <input id="f-instructor" type="text" placeholder="Last, First">
+      </div>
+      <div class="field">
+        <label for="f-institution">Institution</label>
+        <input id="f-institution" type="text" placeholder="e.g. ETH Zürich">
+      </div>
+      <div class="field">
+        <label for="f-year">Year</label>
+        <input id="f-year" type="text" placeholder="e.g. 2023" maxlength="4">
+      </div>
+      <div class="field">
+        <label for="f-discipline">Discipline / medium</label>
+        <input id="f-discipline" type="text" placeholder="e.g. Architectural Theory">
+      </div>
+      <div class="field">
+        <label for="f-geography">Geography / region</label>
+        <input id="f-geography" type="text" placeholder="e.g. Central Europe">
+      </div>
+      <div class="field">
+        <label for="f-language">Language</label>
+        <input id="f-language" type="text" placeholder="e.g. EN" maxlength="10">
+      </div>
+      <div class="field">
+        <label for="f-tags">Tags (comma-separated)</label>
+        <input id="f-tags" type="text" placeholder="e.g. history, materials, urbanism">
+      </div>
+      <div class="field full">
+        <label for="f-notes">Notes / description</label>
+        <textarea id="f-notes" placeholder="Brief description of the course focus, readings, structure…"></textarea>
+      </div>
+      <div class="field full">
+        <label for="f-pdf">PDF / Google Drive link</label>
+        <input id="f-pdf" type="url" placeholder="https://drive.google.com/file/d/…/view">
+      </div>
+    </div>
+    <p class="required-note">* Required field</p>
+    <div class="modal-actions">
+      <button class="btn-del" id="btnDel" style="display:none">Delete entry</button>
+      <div style="display:flex;gap:16px;align-items:center;margin-left:auto">
+        <button class="btn-cancel" id="btnCancel">Cancel</button>
+        <button class="btn-save" id="btnSave">Save entry</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'syllabi-archive-v1';
+
+const SAMPLE = [
+  {id:'s1',title:'Investigations in Material Culture',instructor:'Colomina, Beatriz',institution:'Princeton University',year:'2019',discipline:'Architectural History',geography:'North America',language:'EN',tags:['history','material culture','modernism'],notes:'A doctoral seminar examining the intersection of architecture, media, and the body in twentieth-century design culture. Readings include Benjamin, McLuhan, and Smithson.',pdf:''},
+  {id:'s2',title:'Form and Representation',instructor:'Moneo, Rafael',institution:'Harvard GSD',year:'2016',discipline:'Design Studio',geography:'North America',language:'EN',tags:['studio','drawing','typology'],notes:'Advanced design studio focused on the problem of architectural representation as generative act. Projects develop from hand drawing to model across scales.',pdf:''},
+  {id:'s3',title:'Territoire et Projet',instructor:'Marot, Sébastien',institution:"École d'Architecture de la Ville & des Territoires",year:'2021',discipline:'Landscape & Urbanism',geography:'Western Europe',language:'FR',tags:['landscape','territory','urbanism','ecology'],notes:"Séminaire explorant les relations entre projet territorial, infrastructure et paysage à l'échelle régionale. Études de cas en France et Belgique.",pdf:''},
+  {id:'s4',title:'The Social Life of Small Urban Spaces',instructor:'Aureli, Pier Vittorio',institution:'Architectural Association',year:'2020',discipline:'Urban Theory',geography:'United Kingdom',language:'EN',tags:['urbanism','politics','housing','theory'],notes:'Seminar tracing the genealogy of public space from Roman antiquity to the contemporary city, with attention to the politics of the commons.',pdf:''},
+  {id:'s5',title:'Painting as Thinking',instructor:'Sillman, Amy',institution:'Bard MFA',year:'2018',discipline:'Studio Art',geography:'North America',language:'EN',tags:['painting','process','abstraction'],notes:'Graduate studio seminar structured around close reading of artworks in relation to weekly studio visits. Emphasis on the relationship between critical language and making.',pdf:''},
+  {id:'s6',title:'Costruzione dell\'Architettura',instructor:'Purini, Franco',institution:'Sapienza Università di Roma',year:'2017',discipline:'Architectural Composition',geography:'Southern Europe',language:'IT',tags:['composition','drawing','typology','history'],notes:"Corso magistrale centrato sui fondamenti della composizione architettonica attraverso lo studio dei tipi edilizi e la lettura critica dell'opera di maestri del Novecento.",pdf:''},
+];
+
+let data = [];
+let activeFilters = new Set();
+let editingId = null;
+let currentSort = 'newest';
+let openEntryId = null;
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    data = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SAMPLE));
+  } catch(e){ data = JSON.parse(JSON.stringify(SAMPLE)); }
+}
+
+function saveData(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){ alert('Storage quota exceeded. Export your data to back it up.'); }
+}
+
+function allDisciplines(){
+  const s = new Set();
+  data.forEach(e => { if(e.discipline) s.add(e.discipline); });
+  return [...s].sort();
+}
+
+function renderFilters(){
+  const c = document.getElementById('tagFilters');
+  c.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'tf' + (activeFilters.size===0?' active':'');
+  allBtn.textContent = 'All';
+  allBtn.onclick = ()=>{ activeFilters.clear(); renderFilters(); renderEntries(); };
+  c.appendChild(allBtn);
+  allDisciplines().forEach(d=>{
+    const b = document.createElement('button');
+    b.className = 'tf' + (activeFilters.has(d)?' active':'');
+    b.textContent = d;
+    b.onclick = ()=>{
+      if(activeFilters.has(d)) activeFilters.delete(d);
+      else activeFilters.add(d);
+      renderFilters(); renderEntries();
+    };
+    c.appendChild(b);
+  });
+}
+
+function getSorted(arr){
+  const a = [...arr];
+  if(currentSort==='newest') return a.sort((x,y)=>(+y.year||0)-(+x.year||0));
+  if(currentSort==='oldest') return a.sort((x,y)=>(+x.year||0)-(+y.year||0));
+  if(currentSort==='title') return a.sort((x,y)=>x.title.localeCompare(y.title));
+  if(currentSort==='institution') return a.sort((x,y)=>(x.institution||'').localeCompare(y.institution||''));
+  return a;
+}
+
+function filtered(){
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  return data.filter(e=>{
+    const matchDisc = activeFilters.size===0 || activeFilters.has(e.discipline);
+    const hay = [e.title,e.instructor,e.institution,e.notes,...(e.tags||[]),e.geography,e.year].join(' ').toLowerCase();
+    return matchDisc && (!q || hay.includes(q));
+  });
+}
+
+function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderEntries(){
+  const list = document.getElementById('entriesList');
+  const items = getSorted(filtered());
+  document.getElementById('countEl').textContent = items.length + ' entr' + (items.length===1?'y':'ies');
+  if(!items.length){
+    list.innerHTML = '<div class="empty">No entries match the current filter.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  items.forEach(e=>{
+    const div = document.createElement('div');
+    div.className = 'entry' + (openEntryId===e.id?' open':'');
+    div.id = 'entry-'+e.id;
+    const tagsHtml = (e.tags||[]).map(t=>`<span class="tag" data-disc="${esc(e.discipline)}">${esc(t)}</span>`).join('');
+    const pdfHtml = e.pdf ? `<a class="pdf-link" href="${esc(e.pdf)}" target="_blank" rel="noopener">↗ View syllabus PDF</a>` : '';
+    div.innerHTML = `
+      <div class="entry-row">
+        <div><div class="et">${esc(e.title)}</div><div class="ei" style="margin-top:2px">${esc(e.instructor)}</div></div>
+        <div class="ei">${esc(e.institution)}</div>
+        <div class="ey">${esc(e.year)}</div>
+        <div class="elang">${esc(e.language)}</div>
+        <div class="eexp">+</div>
+      </div>
+      <div class="entry-body">
+        <div class="eb-left">
+          <div class="eb-meta">
+            ${e.discipline?`<div class="em-row"><span class="em-key">Discipline</span><span class="em-val">${esc(e.discipline)}</span></div>`:''}
+            ${e.geography?`<div class="em-row"><span class="em-key">Geography</span><span class="em-val">${esc(e.geography)}</span></div>`:''}
+            ${e.institution?`<div class="em-row"><span class="em-key">Institution</span><span class="em-val">${esc(e.institution)}</span></div>`:''}
+            ${e.year?`<div class="em-row"><span class="em-key">Year</span><span class="em-val">${esc(e.year)}</span></div>`:''}
+            ${e.language?`<div class="em-row"><span class="em-key">Language</span><span class="em-val">${esc(e.language)}</span></div>`:''}
+          </div>
+          ${tagsHtml?`<div class="tags-row">${tagsHtml}</div>`:''}
+          <div class="entry-actions">
+            ${pdfHtml}
+            <button class="edit-btn" data-id="${esc(e.id)}">Edit entry</button>
+          </div>
+        </div>
+        <div class="eb-right">
+          <div class="notes-label">Notes</div>
+          <div class="notes-text">${e.notes ? esc(e.notes) : '—'}</div>
+        </div>
+      </div>`;
+
+    div.querySelector('.entry-row').addEventListener('click', ()=>toggleEntry(e.id, div));
+    div.querySelector('.edit-btn').addEventListener('click', ev=>{ ev.stopPropagation(); openEdit(e.id); });
+    div.querySelectorAll('.tag').forEach(t=>t.addEventListener('click', ev=>{ ev.stopPropagation(); filterByDisc(t.dataset.disc); }));
+
+    list.appendChild(div);
+  });
+}
+
+function toggleEntry(id, el){
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.entry.open').forEach(e=>e.classList.remove('open'));
+  openEntryId = wasOpen ? null : id;
+  if(!wasOpen){ el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+}
+
+function filterByDisc(disc){
+  activeFilters.clear();
+  if(disc) activeFilters.add(disc);
+  renderFilters(); renderEntries();
+}
+
+function openEdit(id){
+  const e = data.find(x=>x.id===id);
+  if(!e) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit entry';
+  document.getElementById('f-title').value = e.title||'';
+  document.getElementById('f-instructor').value = e.instructor||'';
+  document.getElementById('f-institution').value = e.institution||'';
+  document.getElementById('f-year').value = e.year||'';
+  document.getElementById('f-discipline').value = e.discipline||'';
+  document.getElementById('f-geography').value = e.geography||'';
+  document.getElementById('f-language').value = e.language||'';
+  document.getElementById('f-tags').value = (e.tags||[]).join(', ');
+  document.getElementById('f-notes').value = e.notes||'';
+  document.getElementById('f-pdf').value = e.pdf||'';
+  document.getElementById('btnDel').style.display = 'inline';
+  document.getElementById('modalBg').classList.add('open');
+  document.getElementById('f-title').focus();
+}
+
+function clearForm(){
+  ['title','instructor','institution','year','discipline','geography','language','tags','notes','pdf']
+    .forEach(f=>{ document.getElementById('f-'+f).value=''; });
+}
+
+document.getElementById('addBtn').addEventListener('click', ()=>{
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'New entry';
+  clearForm();
+  document.getElementById('btnDel').style.display = 'none';
+  document.getElementById('modalBg').classList.add('open');
+  document.getElementById('f-title').focus();
+});
+
+document.getElementById('btnCancel').addEventListener('click', ()=>document.getElementById('modalBg').classList.remove('open'));
+
+document.getElementById('modalBg').addEventListener('click', ev=>{
+  if(ev.target===document.getElementById('modalBg')) document.getElementById('modalBg').classList.remove('open');
+});
+
+document.addEventListener('keydown', ev=>{
+  if(ev.key==='Escape') document.getElementById('modalBg').classList.remove('open');
+});
+
+document.getElementById('btnSave').addEventListener('click', ()=>{
+  const title = document.getElementById('f-title').value.trim();
+  if(!title){ document.getElementById('f-title').focus(); return; }
+  const entry = {
+    id: editingId || ('e' + Date.now()),
+    title,
+    instructor: document.getElementById('f-instructor').value.trim(),
+    institution: document.getElementById('f-institution').value.trim(),
+    year: document.getElementById('f-year').value.trim(),
+    discipline: document.getElementById('f-discipline').value.trim(),
+    geography: document.getElementById('f-geography').value.trim(),
+    language: document.getElementById('f-language').value.trim().toUpperCase(),
+    tags: document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    notes: document.getElementById('f-notes').value.trim(),
+    pdf: document.getElementById('f-pdf').value.trim(),
+  };
+  if(editingId){
+    const i = data.findIndex(x=>x.id===editingId);
+    if(i>-1) data[i] = entry;
+  } else {
+    data.unshift(entry);
+    openEntryId = entry.id;
+  }
+  saveData();
+  document.getElementById('modalBg').classList.remove('open');
+  renderFilters(); renderEntries();
+});
+
+document.getElementById('btnDel').addEventListener('click', ()=>{
+  if(!editingId || !confirm('Delete this entry? This cannot be undone.')) return;
+  data = data.filter(x=>x.id!==editingId);
+  if(openEntryId===editingId) openEntryId = null;
+  saveData();
+  document.getElementById('modalBg').classList.remove('open');
+  renderFilters(); renderEntries();
+});
+
+document.getElementById('searchInput').addEventListener('input', ()=>renderEntries());
+
+document.querySelectorAll('.sb').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    currentSort = b.dataset.sort;
+    document.querySelectorAll('.sb').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderEntries();
+  });
+});
+
+// Export
+document.getElementById('exportBtn').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'syllabi-archive.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+// Import
+document.getElementById('importBtn').addEventListener('click', ()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', ev=>{
+  const file = ev.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    try{
+      const imported = JSON.parse(e.target.result);
+      if(!Array.isArray(imported)) throw new Error('Invalid format');
+      if(!confirm(`Import ${imported.length} entries? This will replace your current data.`)) return;
+      data = imported;
+      saveData();
+      openEntryId = null;
+      activeFilters.clear();
+      renderFilters(); renderEntries();
+    } catch(err){ alert('Invalid JSON file. Please export from this archive first.'); }
+  };
+  reader.readAsText(file);
+  ev.target.value = '';
+});
+
+loadData();
+renderFilters();
+renderEntries();
+</script>
+</body>
+</html>
