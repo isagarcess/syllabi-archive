@@ -3,32 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Syllabi Archive</title>
+<title>the syllabi archive</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0} 
-
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#000000;
-  --ink2:#3a3a3a;
-  --ink3:#7a7a7a;
-  --paper:#ffffff;
-  --rule:#000000;
-  --serif:'EB Garamond',Georgia,serif;
-  --mono:'IBM Plex Mono',monospace;
-  --label-size:9px;
-  --label-track:.18em;
+  --ink:#000000;--ink2:#3a3a3a;--ink3:#7a7a7a;--paper:#ffffff;--rule:#000000;
+  --serif:'EB Garamond',Georgia,serif;--mono:'IBM Plex Mono',monospace;
+  --label-size:9px;--label-track:.18em;
 }
-
 html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:15px;line-height:1.5;min-height:100vh}
-
 .wrap{max-width:860px;margin:0 auto;padding:0 32px 80px}
 
 /* MASTHEAD */
-.masthead{border-bottom:2px solid var(--rule);padding:32px 0 20px;margin-bottom:0}
+.masthead{border-bottom:2px solid var(--rule);padding:32px 0 20px}
 .masthead-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .archive-title{font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:.01em;line-height:1.1}
 .archive-title em{font-style:italic}
@@ -83,7 +74,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
 .tags-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .tag{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);border:1px solid var(--ink3);padding:1px 5px;cursor:pointer;transition:all .1s}
 .tag:hover{color:var(--ink);border-color:var(--ink)}
-.entry-actions{display:flex;gap:16px;align-items:center;margin-top:12px}
+.entry-actions{display:flex;gap:16px;align-items:center;margin-top:12px;flex-wrap:wrap}
 .pdf-link{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:1px;transition:color .1s}
 .pdf-link:hover{color:var(--ink3);border-color:var(--ink3)}
 .edit-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
@@ -91,7 +82,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
 .notes-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
 .notes-text{font-family:var(--serif);font-size:14px;line-height:1.7;color:var(--ink2);font-style:italic}
 
-/* EMPTY / COUNT */
+/* STATUS */
+.status{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);padding:6px 0;min-height:22px}
 .empty{padding:48px 0;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
 .count{font-family:var(--mono);font-size:var(--label-size);letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);padding:10px 0 0;text-align:right}
 
@@ -105,7 +97,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
 .field{display:flex;flex-direction:column;gap:5px}
 .field label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
 .field input,.field textarea{background:transparent;border:none;border-bottom:1px solid var(--rule);outline:none;font-family:var(--mono);font-size:11px;color:var(--ink);padding:6px 0;width:100%;resize:none;transition:border-color .15s}
-.field input:focus,.field textarea:focus{border-color:var(--ink)}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--ink)}
 .field textarea{min-height:80px;line-height:1.55}
 .field input::placeholder,.field textarea::placeholder{color:var(--ink3)}
 .modal-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px;border-top:1px solid var(--rule);padding-top:20px}
@@ -113,21 +105,48 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
 .btn-cancel:hover{color:var(--ink)}
 .btn-save{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:none;cursor:pointer;padding:8px 20px;transition:opacity .12s}
 .btn-save:hover{opacity:.75}
+.btn-save:disabled{opacity:.4;cursor:not-allowed}
 .btn-del{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;transition:color .12s}
 .btn-del:hover{color:#c0392b}
 .required-note{font-family:var(--mono);font-size:9px;color:var(--ink3);margin-top:4px}
 
-/* EXPORT/IMPORT */
-.data-tools{border-top:1px solid var(--rule);margin-top:48px;padding-top:16px;display:flex;gap:16px;align-items:center}
+/* PDF UPLOAD */
+.pdf-upload-area{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.pdf-upload-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:1px dashed var(--ink3);cursor:pointer;padding:8px 12px;text-align:left;transition:all .12s;width:100%}
+.pdf-upload-btn:hover{color:var(--ink);border-color:var(--ink)}
+.pdf-upload-status{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--ink3);min-height:14px}
+.pdf-current{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--ink2)}
+
+/* PASSWORD MODAL */
+.pw-modal{background:var(--paper);border:1px solid var(--rule);padding:32px;width:min(360px,100%)}
+.pw-title{font-family:var(--mono);font-size:var(--label-size);letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:20px}
+.pw-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.pw-field label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
+.pw-field input{background:transparent;border:none;border-bottom:1px solid var(--rule);outline:none;font-family:var(--mono);font-size:12px;color:var(--ink);padding:6px 0;width:100%}
+.pw-error{font-family:var(--mono);font-size:9px;color:#c0392b;letter-spacing:.08em;min-height:14px;margin-bottom:10px}
+.pw-actions{display:flex;justify-content:flex-end;gap:12px;align-items:center}
+.btn-pw{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:none;cursor:pointer;padding:8px 20px}
+.btn-pw:hover{opacity:.75}
+
+/* DATA TOOLS */
+.data-tools{border-top:1px solid var(--rule);margin-top:48px;padding-top:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .dt-label{font-family:var(--mono);font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:uppercase;color:var(--ink3)}
 .dt-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
 .dt-btn:hover{color:var(--ink)}
+.lock-btn{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;margin-left:auto}
+.lock-btn:hover{color:var(--ink)}
+
+/* FOOTER */
+.site-footer{border-top:1px solid var(--rule);margin-top:32px;padding:20px 0 40px;display:flex;align-items:center;justify-content:space-between}
+.footer-ig{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--ink3);transition:color .12s}
+.footer-ig:hover{color:var(--ink)}
+.footer-ig svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.footer-ig-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
 
 @media(max-width:640px){
   .wrap{padding:0 16px 60px}
   .col-head,.entry-row{grid-template-columns:1fr auto 28px}
-  .col-head .ch:nth-child(3),.col-head .ch:nth-child(4),
-  .entry-row .ey,.entry-row .elang{display:none}
+  .col-head .ch:nth-child(3),.col-head .ch:nth-child(4),.entry-row .ey,.entry-row .elang{display:none}
   .entry.open .entry-body{grid-template-columns:1fr}
   .search-wrap{border-right:none;padding-right:0;margin-right:0}
   .form-grid{grid-template-columns:1fr}
@@ -137,12 +156,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
 </head>
 <body>
 <div class="wrap">
+
   <div class="masthead">
     <div class="masthead-top">
-      <div class="archive-title"><em>Syllabi Archive</em></div>
+      <div class="archive-title"><em>the syllabi archive</em></div>
       <div class="archive-meta">Global Index · Est. 2025</div>
     </div>
-    <div class="masthead-desc">A research index of course syllabi from art and architecture programs worldwide</div>
+    <div class="masthead-desc">An index of syllabi from art, architecture, and material culture programs worldwide</div>
   </div>
 
   <div class="controls">
@@ -154,7 +174,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
       <span class="filter-label">Discipline</span>
       <div class="tag-filters" id="tagFilters"></div>
     </div>
-    <button class="add-btn" id="addBtn">+ Add entry</button>
+    <button class="add-btn" id="addBtn" style="display:none">+ Add entry</button>
   </div>
 
   <div class="sort-bar">
@@ -173,19 +193,48 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
     <div class="ch"></div>
   </div>
 
+  <div class="status" id="statusEl">Loading…</div>
   <div id="entriesList"></div>
   <div class="count" id="countEl"></div>
 
   <div class="data-tools">
     <span class="dt-label">Data</span>
     <button class="dt-btn" id="exportBtn">Export JSON</button>
-    <button class="dt-btn" id="importBtn">Import JSON</button>
-    <input type="file" id="importFile" accept=".json" style="display:none">
+    <button class="lock-btn" id="lockBtn" style="display:none">Lock editor</button>
+    <button class="lock-btn" id="unlockBtn">Editor login</button>
+  </div>
+
+  <div class="site-footer">
+    <a class="footer-ig" href="https://www.instagram.com/thesyllabiarchive/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="footer-ig-label">@thesyllabiarchive</span>
+    </a>
+  </div>
+
+</div>
+
+<!-- Password modal -->
+<div class="modal-bg" id="pwModalBg">
+  <div class="pw-modal">
+    <div class="pw-title">Editor access</div>
+    <div class="pw-field">
+      <label for="pwInput">Password</label>
+      <input id="pwInput" type="password" autocomplete="current-password">
+    </div>
+    <div class="pw-error" id="pwError"></div>
+    <div class="pw-actions">
+      <button class="btn-cancel" id="pwCancel">Cancel</button>
+      <button class="btn-pw" id="pwSubmit">Unlock</button>
+    </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<!-- Entry modal -->
+<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modal-title" id="modalTitle">New entry</div>
     <div class="form-grid">
@@ -226,8 +275,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
         <textarea id="f-notes" placeholder="Brief description of the course focus, readings, structure…"></textarea>
       </div>
       <div class="field full">
-        <label for="f-pdf">PDF / Google Drive link</label>
+        <label for="f-pdf">PDF — paste link or upload file</label>
         <input id="f-pdf" type="url" placeholder="https://drive.google.com/file/d/…/view">
+        <div class="pdf-upload-area" id="pdfUploadArea" style="display:none">
+          <button type="button" class="pdf-upload-btn" id="pdfUploadBtn">↑ Choose PDF file to upload</button>
+          <div class="pdf-upload-status" id="pdfUploadStatus"></div>
+          <div class="pdf-current" id="pdfCurrent"></div>
+        </div>
+        <input type="file" id="pdfFileInput" accept="application/pdf" style="display:none">
       </div>
     </div>
     <p class="required-note">* Required field</p>
@@ -242,54 +297,184 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
 </div>
 
 <script>
-const STORAGE_KEY = 'syllabi-archive-v1';
-
-const SAMPLE = [
-  {id:'s1',title:'Investigations in Material Culture',instructor:'Colomina, Beatriz',institution:'Princeton University',year:'2019',discipline:'Architectural History',geography:'North America',language:'EN',tags:['history','material culture','modernism'],notes:'A doctoral seminar examining the intersection of architecture, media, and the body in twentieth-century design culture. Readings include Benjamin, McLuhan, and Smithson.',pdf:''},
-  {id:'s2',title:'Form and Representation',instructor:'Moneo, Rafael',institution:'Harvard GSD',year:'2016',discipline:'Design Studio',geography:'North America',language:'EN',tags:['studio','drawing','typology'],notes:'Advanced design studio focused on the problem of architectural representation as generative act. Projects develop from hand drawing to model across scales.',pdf:''},
-  {id:'s3',title:'Territoire et Projet',instructor:'Marot, Sébastien',institution:"École d'Architecture de la Ville & des Territoires",year:'2021',discipline:'Landscape & Urbanism',geography:'Western Europe',language:'FR',tags:['landscape','territory','urbanism','ecology'],notes:"Séminaire explorant les relations entre projet territorial, infrastructure et paysage à l'échelle régionale. Études de cas en France et Belgique.",pdf:''},
-  {id:'s4',title:'The Social Life of Small Urban Spaces',instructor:'Aureli, Pier Vittorio',institution:'Architectural Association',year:'2020',discipline:'Urban Theory',geography:'United Kingdom',language:'EN',tags:['urbanism','politics','housing','theory'],notes:'Seminar tracing the genealogy of public space from Roman antiquity to the contemporary city, with attention to the politics of the commons.',pdf:''},
-  {id:'s5',title:'Painting as Thinking',instructor:'Sillman, Amy',institution:'Bard MFA',year:'2018',discipline:'Studio Art',geography:'North America',language:'EN',tags:['painting','process','abstraction'],notes:'Graduate studio seminar structured around close reading of artworks in relation to weekly studio visits. Emphasis on the relationship between critical language and making.',pdf:''},
-  {id:'s6',title:'Costruzione dell\'Architettura',instructor:'Purini, Franco',institution:'Sapienza Università di Roma',year:'2017',discipline:'Architectural Composition',geography:'Southern Europe',language:'IT',tags:['composition','drawing','typology','history'],notes:"Corso magistrale centrato sui fondamenti della composizione architettonica attraverso lo studio dei tipi edilizi e la lettura critica dell'opera di maestri del Novecento.",pdf:''},
-];
+const SUPABASE_URL = 'https://luycgehnvnbwfmiyjcjj.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eWNnZWhudm5id2ZtaXlqY2pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3ODk3MzIsImV4cCI6MjA5NDM2NTczMn0.U2gXa0taNHrz-lDcpy0TwkUUIoOLttvX2vkM1pGXwqQ';
+const TABLE = 'entries';
+const BUCKET = 'pdfs';
+const EDITOR_PASSWORD = 'syllabiarchive2026';
+const SESSION_KEY = 'syllabi-editor-unlocked';
 
 let data = [];
 let activeFilters = new Set();
 let editingId = null;
 let currentSort = 'newest';
 let openEntryId = null;
+let isEditor = false;
 
-function loadData(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    data = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SAMPLE));
-  } catch(e){ data = JSON.parse(JSON.stringify(SAMPLE)); }
+// ── SUPABASE ──
+async function sbFetch(path, opts={}) {
+  const headers = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+  };
+  if (opts.prefer) headers['Prefer'] = opts.prefer;
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    method: opts.method || 'GET',
+    headers,
+    body: opts.body || undefined
+  });
+  if (!res.ok) throw new Error(await res.text());
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
 }
 
-function saveData(){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){ alert('Storage quota exceeded. Export your data to back it up.'); }
+async function loadData() {
+  setStatus('Loading…');
+  try {
+    const rows = await sbFetch(TABLE + '?order=created_at.desc&select=*');
+    data = (rows || []).map(r => ({
+      ...r,
+      tags: r.tags ? r.tags.split(',').map(t => t.trim()).filter(Boolean) : []
+    }));
+    setStatus('');
+    renderFilters();
+    renderEntries();
+  } catch (e) {
+    setStatus('Could not load entries. Check your connection.');
+    console.error(e);
+  }
 }
 
-function allDisciplines(){
+function entryToRow(e) {
+  return {
+    title: e.title,
+    instructor: e.instructor || '',
+    institution: e.institution || '',
+    year: e.year || '',
+    discipline: e.discipline || '',
+    geography: e.geography || '',
+    language: e.language || '',
+    tags: (e.tags || []).join(', '),
+    notes: e.notes || '',
+    pdf: e.pdf || ''
+  };
+}
+
+async function insertEntry(e) {
+  return sbFetch(TABLE, { method: 'POST', prefer: 'return=representation', body: JSON.stringify(entryToRow(e)) });
+}
+
+async function updateEntry(id, e) {
+  return sbFetch(TABLE + '?id=eq.' + id, { method: 'PATCH', prefer: 'return=representation', body: JSON.stringify(entryToRow(e)) });
+}
+
+async function deleteEntry(id) {
+  return sbFetch(TABLE + '?id=eq.' + id, { method: 'DELETE' });
+}
+
+// ── PDF UPLOAD ──
+document.getElementById('pdfUploadBtn').addEventListener('click', () => document.getElementById('pdfFileInput').click());
+
+document.getElementById('pdfFileInput').addEventListener('change', async ev => {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const status = document.getElementById('pdfUploadStatus');
+  const btn = document.getElementById('pdfUploadBtn');
+  btn.textContent = 'Uploading…';
+  btn.disabled = true;
+  status.textContent = 'Uploading ' + file.name + '…';
+  try {
+    const filename = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${filename}`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/pdf',
+        'x-upsert': 'true'
+      },
+      body: file
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${filename}`;
+    document.getElementById('f-pdf').value = publicUrl;
+    status.textContent = '✓ Uploaded: ' + file.name;
+    document.getElementById('pdfCurrent').textContent = '';
+  } catch (e) {
+    status.textContent = 'Upload failed. Try again.';
+    console.error(e);
+  }
+  btn.textContent = '↑ Choose PDF file to upload';
+  btn.disabled = false;
+  ev.target.value = '';
+});
+
+// ── AUTH ──
+function checkSession() {
+  isEditor = sessionStorage.getItem(SESSION_KEY) === '1';
+  updateEditorUI();
+}
+
+function updateEditorUI() {
+  document.getElementById('addBtn').style.display = isEditor ? 'inline-block' : 'none';
+  document.getElementById('lockBtn').style.display = isEditor ? 'inline-block' : 'none';
+  document.getElementById('unlockBtn').style.display = isEditor ? 'none' : 'inline-block';
+  document.getElementById('pdfUploadArea').style.display = isEditor ? 'flex' : 'none';
+  renderEntries();
+}
+
+document.getElementById('unlockBtn').addEventListener('click', () => {
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').textContent = '';
+  document.getElementById('pwModalBg').classList.add('open');
+  setTimeout(() => document.getElementById('pwInput').focus(), 50);
+});
+
+document.getElementById('pwCancel').addEventListener('click', () => document.getElementById('pwModalBg').classList.remove('open'));
+
+document.getElementById('pwSubmit').addEventListener('click', () => {
+  if (document.getElementById('pwInput').value === EDITOR_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, '1');
+    isEditor = true;
+    document.getElementById('pwModalBg').classList.remove('open');
+    updateEditorUI();
+  } else {
+    document.getElementById('pwError').textContent = 'Incorrect password.';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+});
+
+document.getElementById('pwInput').addEventListener('keydown', ev => { if (ev.key === 'Enter') document.getElementById('pwSubmit').click(); });
+
+document.getElementById('lockBtn').addEventListener('click', () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  isEditor = false;
+  updateEditorUI();
+});
+
+// ── FILTERS & SORT ──
+function allDisciplines() {
   const s = new Set();
-  data.forEach(e => { if(e.discipline) s.add(e.discipline); });
+  data.forEach(e => { if (e.discipline) s.add(e.discipline); });
   return [...s].sort();
 }
 
-function renderFilters(){
+function renderFilters() {
   const c = document.getElementById('tagFilters');
   c.innerHTML = '';
   const allBtn = document.createElement('button');
-  allBtn.className = 'tf' + (activeFilters.size===0?' active':'');
+  allBtn.className = 'tf' + (activeFilters.size === 0 ? ' active' : '');
   allBtn.textContent = 'All';
-  allBtn.onclick = ()=>{ activeFilters.clear(); renderFilters(); renderEntries(); };
+  allBtn.onclick = () => { activeFilters.clear(); renderFilters(); renderEntries(); };
   c.appendChild(allBtn);
-  allDisciplines().forEach(d=>{
+  allDisciplines().forEach(d => {
     const b = document.createElement('button');
-    b.className = 'tf' + (activeFilters.has(d)?' active':'');
+    b.className = 'tf' + (activeFilters.has(d) ? ' active' : '');
     b.textContent = d;
-    b.onclick = ()=>{
-      if(activeFilters.has(d)) activeFilters.delete(d);
+    b.onclick = () => {
+      if (activeFilters.has(d)) activeFilters.delete(d);
       else activeFilters.add(d);
       renderFilters(); renderEntries();
     };
@@ -297,41 +482,41 @@ function renderFilters(){
   });
 }
 
-function getSorted(arr){
+function getSorted(arr) {
   const a = [...arr];
-  if(currentSort==='newest') return a.sort((x,y)=>(+y.year||0)-(+x.year||0));
-  if(currentSort==='oldest') return a.sort((x,y)=>(+x.year||0)-(+y.year||0));
-  if(currentSort==='title') return a.sort((x,y)=>x.title.localeCompare(y.title));
-  if(currentSort==='institution') return a.sort((x,y)=>(x.institution||'').localeCompare(y.institution||''));
+  if (currentSort === 'newest') return a.sort((x, y) => (+y.year || 0) - (+x.year || 0));
+  if (currentSort === 'oldest') return a.sort((x, y) => (+x.year || 0) - (+y.year || 0));
+  if (currentSort === 'title') return a.sort((x, y) => x.title.localeCompare(y.title));
+  if (currentSort === 'institution') return a.sort((x, y) => (x.institution || '').localeCompare(y.institution || ''));
   return a;
 }
 
-function filtered(){
+function filtered() {
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  return data.filter(e=>{
-    const matchDisc = activeFilters.size===0 || activeFilters.has(e.discipline);
-    const hay = [e.title,e.instructor,e.institution,e.notes,...(e.tags||[]),e.geography,e.year].join(' ').toLowerCase();
+  return data.filter(e => {
+    const matchDisc = activeFilters.size === 0 || activeFilters.has(e.discipline);
+    const hay = [e.title, e.instructor, e.institution, e.notes, ...(e.tags || []), e.geography, e.year].join(' ').toLowerCase();
     return matchDisc && (!q || hay.includes(q));
   });
 }
 
-function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function setStatus(msg) { document.getElementById('statusEl').textContent = msg; }
 
-function renderEntries(){
+// ── RENDER ──
+function renderEntries() {
   const list = document.getElementById('entriesList');
   const items = getSorted(filtered());
-  document.getElementById('countEl').textContent = items.length + ' entr' + (items.length===1?'y':'ies');
-  if(!items.length){
-    list.innerHTML = '<div class="empty">No entries match the current filter.</div>';
-    return;
-  }
+  document.getElementById('countEl').textContent = items.length + ' entr' + (items.length === 1 ? 'y' : 'ies');
+  if (!items.length) { list.innerHTML = '<div class="empty">No entries match the current filter.</div>'; return; }
   list.innerHTML = '';
-  items.forEach(e=>{
+  items.forEach(e => {
     const div = document.createElement('div');
-    div.className = 'entry' + (openEntryId===e.id?' open':'');
-    div.id = 'entry-'+e.id;
-    const tagsHtml = (e.tags||[]).map(t=>`<span class="tag" data-disc="${esc(e.discipline)}">${esc(t)}</span>`).join('');
+    div.className = 'entry' + (openEntryId === e.id ? ' open' : '');
+    div.id = 'entry-' + e.id;
+    const tagsHtml = (e.tags || []).map(t => `<span class="tag" data-disc="${esc(e.discipline)}">${esc(t)}</span>`).join('');
     const pdfHtml = e.pdf ? `<a class="pdf-link" href="${esc(e.pdf)}" target="_blank" rel="noopener">↗ View syllabus PDF</a>` : '';
+    const editHtml = isEditor ? `<button class="edit-btn" data-id="${esc(e.id)}">Edit entry</button>` : '';
     div.innerHTML = `
       <div class="entry-row">
         <div><div class="et">${esc(e.title)}</div><div class="ei" style="margin-top:2px">${esc(e.instructor)}</div></div>
@@ -343,71 +528,72 @@ function renderEntries(){
       <div class="entry-body">
         <div class="eb-left">
           <div class="eb-meta">
-            ${e.discipline?`<div class="em-row"><span class="em-key">Discipline</span><span class="em-val">${esc(e.discipline)}</span></div>`:''}
-            ${e.geography?`<div class="em-row"><span class="em-key">Geography</span><span class="em-val">${esc(e.geography)}</span></div>`:''}
-            ${e.institution?`<div class="em-row"><span class="em-key">Institution</span><span class="em-val">${esc(e.institution)}</span></div>`:''}
-            ${e.year?`<div class="em-row"><span class="em-key">Year</span><span class="em-val">${esc(e.year)}</span></div>`:''}
-            ${e.language?`<div class="em-row"><span class="em-key">Language</span><span class="em-val">${esc(e.language)}</span></div>`:''}
+            ${e.discipline ? `<div class="em-row"><span class="em-key">Discipline</span><span class="em-val">${esc(e.discipline)}</span></div>` : ''}
+            ${e.geography ? `<div class="em-row"><span class="em-key">Geography</span><span class="em-val">${esc(e.geography)}</span></div>` : ''}
+            ${e.institution ? `<div class="em-row"><span class="em-key">Institution</span><span class="em-val">${esc(e.institution)}</span></div>` : ''}
+            ${e.year ? `<div class="em-row"><span class="em-key">Year</span><span class="em-val">${esc(e.year)}</span></div>` : ''}
+            ${e.language ? `<div class="em-row"><span class="em-key">Language</span><span class="em-val">${esc(e.language)}</span></div>` : ''}
           </div>
-          ${tagsHtml?`<div class="tags-row">${tagsHtml}</div>`:''}
-          <div class="entry-actions">
-            ${pdfHtml}
-            <button class="edit-btn" data-id="${esc(e.id)}">Edit entry</button>
-          </div>
+          ${tagsHtml ? `<div class="tags-row">${tagsHtml}</div>` : ''}
+          <div class="entry-actions">${pdfHtml}${editHtml}</div>
         </div>
         <div class="eb-right">
           <div class="notes-label">Notes</div>
           <div class="notes-text">${e.notes ? esc(e.notes) : '—'}</div>
         </div>
       </div>`;
-
-    div.querySelector('.entry-row').addEventListener('click', ()=>toggleEntry(e.id, div));
-    div.querySelector('.edit-btn').addEventListener('click', ev=>{ ev.stopPropagation(); openEdit(e.id); });
-    div.querySelectorAll('.tag').forEach(t=>t.addEventListener('click', ev=>{ ev.stopPropagation(); filterByDisc(t.dataset.disc); }));
-
+    div.querySelector('.entry-row').addEventListener('click', () => toggleEntry(e.id, div));
+    if (isEditor) div.querySelector('.edit-btn')?.addEventListener('click', ev => { ev.stopPropagation(); openEdit(e.id); });
+    div.querySelectorAll('.tag').forEach(t => t.addEventListener('click', ev => { ev.stopPropagation(); filterByDisc(t.dataset.disc); }));
     list.appendChild(div);
   });
 }
 
-function toggleEntry(id, el){
+function toggleEntry(id, el) {
   const wasOpen = el.classList.contains('open');
-  document.querySelectorAll('.entry.open').forEach(e=>e.classList.remove('open'));
+  document.querySelectorAll('.entry.open').forEach(e => e.classList.remove('open'));
   openEntryId = wasOpen ? null : id;
-  if(!wasOpen){ el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  if (!wasOpen) { el.classList.add('open'); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
 }
 
-function filterByDisc(disc){
+function filterByDisc(disc) {
   activeFilters.clear();
-  if(disc) activeFilters.add(disc);
+  if (disc) activeFilters.add(disc);
   renderFilters(); renderEntries();
 }
 
-function openEdit(id){
-  const e = data.find(x=>x.id===id);
-  if(!e) return;
+// ── EDIT MODAL ──
+function openEdit(id) {
+  const e = data.find(x => x.id === id);
+  if (!e) return;
   editingId = id;
   document.getElementById('modalTitle').textContent = 'Edit entry';
-  document.getElementById('f-title').value = e.title||'';
-  document.getElementById('f-instructor').value = e.instructor||'';
-  document.getElementById('f-institution').value = e.institution||'';
-  document.getElementById('f-year').value = e.year||'';
-  document.getElementById('f-discipline').value = e.discipline||'';
-  document.getElementById('f-geography').value = e.geography||'';
-  document.getElementById('f-language').value = e.language||'';
-  document.getElementById('f-tags').value = (e.tags||[]).join(', ');
-  document.getElementById('f-notes').value = e.notes||'';
-  document.getElementById('f-pdf').value = e.pdf||'';
+  document.getElementById('f-title').value = e.title || '';
+  document.getElementById('f-instructor').value = e.instructor || '';
+  document.getElementById('f-institution').value = e.institution || '';
+  document.getElementById('f-year').value = e.year || '';
+  document.getElementById('f-discipline').value = e.discipline || '';
+  document.getElementById('f-geography').value = e.geography || '';
+  document.getElementById('f-language').value = e.language || '';
+  document.getElementById('f-tags').value = (e.tags || []).join(', ');
+  document.getElementById('f-notes').value = e.notes || '';
+  document.getElementById('f-pdf').value = e.pdf || '';
+  document.getElementById('pdfUploadStatus').textContent = '';
+  document.getElementById('pdfCurrent').textContent = e.pdf ? 'Current: ' + (e.pdf.split('/').pop() || e.pdf) : '';
   document.getElementById('btnDel').style.display = 'inline';
   document.getElementById('modalBg').classList.add('open');
   document.getElementById('f-title').focus();
 }
 
-function clearForm(){
-  ['title','instructor','institution','year','discipline','geography','language','tags','notes','pdf']
-    .forEach(f=>{ document.getElementById('f-'+f).value=''; });
+function clearForm() {
+  ['title', 'instructor', 'institution', 'year', 'discipline', 'geography', 'language', 'tags', 'notes', 'pdf']
+    .forEach(f => document.getElementById('f-' + f).value = '');
+  document.getElementById('pdfUploadStatus').textContent = '';
+  document.getElementById('pdfCurrent').textContent = '';
 }
 
-document.getElementById('addBtn').addEventListener('click', ()=>{
+document.getElementById('addBtn').addEventListener('click', () => {
+  if (!isEditor) return;
   editingId = null;
   document.getElementById('modalTitle').textContent = 'New entry';
   clearForm();
@@ -416,21 +602,22 @@ document.getElementById('addBtn').addEventListener('click', ()=>{
   document.getElementById('f-title').focus();
 });
 
-document.getElementById('btnCancel').addEventListener('click', ()=>document.getElementById('modalBg').classList.remove('open'));
-
-document.getElementById('modalBg').addEventListener('click', ev=>{
-  if(ev.target===document.getElementById('modalBg')) document.getElementById('modalBg').classList.remove('open');
+document.getElementById('btnCancel').addEventListener('click', () => document.getElementById('modalBg').classList.remove('open'));
+document.getElementById('modalBg').addEventListener('click', ev => { if (ev.target === document.getElementById('modalBg')) document.getElementById('modalBg').classList.remove('open'); });
+document.getElementById('pwModalBg').addEventListener('click', ev => { if (ev.target === document.getElementById('pwModalBg')) document.getElementById('pwModalBg').classList.remove('open'); });
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape') {
+    document.getElementById('modalBg').classList.remove('open');
+    document.getElementById('pwModalBg').classList.remove('open');
+  }
 });
 
-document.addEventListener('keydown', ev=>{
-  if(ev.key==='Escape') document.getElementById('modalBg').classList.remove('open');
-});
-
-document.getElementById('btnSave').addEventListener('click', ()=>{
+document.getElementById('btnSave').addEventListener('click', async () => {
   const title = document.getElementById('f-title').value.trim();
-  if(!title){ document.getElementById('f-title').focus(); return; }
+  if (!title) { document.getElementById('f-title').focus(); return; }
+  const btn = document.getElementById('btnSave');
+  btn.disabled = true; btn.textContent = 'Saving…';
   const entry = {
-    id: editingId || ('e' + Date.now()),
     title,
     instructor: document.getElementById('f-instructor').value.trim(),
     institution: document.getElementById('f-institution').value.trim(),
@@ -438,45 +625,48 @@ document.getElementById('btnSave').addEventListener('click', ()=>{
     discipline: document.getElementById('f-discipline').value.trim(),
     geography: document.getElementById('f-geography').value.trim(),
     language: document.getElementById('f-language').value.trim().toUpperCase(),
-    tags: document.getElementById('f-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    tags: document.getElementById('f-tags').value.split(',').map(t => t.trim()).filter(Boolean),
     notes: document.getElementById('f-notes').value.trim(),
     pdf: document.getElementById('f-pdf').value.trim(),
   };
-  if(editingId){
-    const i = data.findIndex(x=>x.id===editingId);
-    if(i>-1) data[i] = entry;
-  } else {
-    data.unshift(entry);
-    openEntryId = entry.id;
+  try {
+    if (editingId) { await updateEntry(editingId, entry); }
+    else { await insertEntry(entry); }
+    document.getElementById('modalBg').classList.remove('open');
+    await loadData();
+  } catch (e) {
+    alert('Save failed. Check your connection and try again.\n\n' + e.message);
+    console.error(e);
   }
-  saveData();
-  document.getElementById('modalBg').classList.remove('open');
-  renderFilters(); renderEntries();
+  btn.disabled = false; btn.textContent = 'Save entry';
 });
 
-document.getElementById('btnDel').addEventListener('click', ()=>{
-  if(!editingId || !confirm('Delete this entry? This cannot be undone.')) return;
-  data = data.filter(x=>x.id!==editingId);
-  if(openEntryId===editingId) openEntryId = null;
-  saveData();
-  document.getElementById('modalBg').classList.remove('open');
-  renderFilters(); renderEntries();
+document.getElementById('btnDel').addEventListener('click', async () => {
+  if (!editingId || !confirm('Delete this entry? This cannot be undone.')) return;
+  try {
+    await deleteEntry(editingId);
+    openEntryId = null;
+    document.getElementById('modalBg').classList.remove('open');
+    await loadData();
+  } catch (e) {
+    alert('Delete failed. Check your connection and try again.');
+    console.error(e);
+  }
 });
 
-document.getElementById('searchInput').addEventListener('input', ()=>renderEntries());
+document.getElementById('searchInput').addEventListener('input', () => renderEntries());
 
-document.querySelectorAll('.sb').forEach(b=>{
-  b.addEventListener('click', ()=>{
+document.querySelectorAll('.sb').forEach(b => {
+  b.addEventListener('click', () => {
     currentSort = b.dataset.sort;
-    document.querySelectorAll('.sb').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.sb').forEach(x => x.classList.remove('active'));
     b.classList.add('active');
     renderEntries();
   });
 });
 
-// Export
-document.getElementById('exportBtn').addEventListener('click', ()=>{
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(data.map(e => ({ ...e, tags: (e.tags || []).join(', ') })), null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'syllabi-archive.json';
@@ -484,31 +674,8 @@ document.getElementById('exportBtn').addEventListener('click', ()=>{
   URL.revokeObjectURL(a.href);
 });
 
-// Import
-document.getElementById('importBtn').addEventListener('click', ()=>document.getElementById('importFile').click());
-document.getElementById('importFile').addEventListener('change', ev=>{
-  const file = ev.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e=>{
-    try{
-      const imported = JSON.parse(e.target.result);
-      if(!Array.isArray(imported)) throw new Error('Invalid format');
-      if(!confirm(`Import ${imported.length} entries? This will replace your current data.`)) return;
-      data = imported;
-      saveData();
-      openEntryId = null;
-      activeFilters.clear();
-      renderFilters(); renderEntries();
-    } catch(err){ alert('Invalid JSON file. Please export from this archive first.'); }
-  };
-  reader.readAsText(file);
-  ev.target.value = '';
-});
-
+checkSession();
 loadData();
-renderFilters();
-renderEntries();
 </script>
 </body>
 </html>
