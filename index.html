@@ -177,12 +177,17 @@ body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size
     <button class="add-btn" id="addBtn" style="display:none">+ Add entry</button>
   </div>
 
-  <div class="sort-bar">
+<div class="sort-bar">
     <span class="sort-label">Sort</span>
     <button class="sb active" data-sort="newest">Newest</button>
     <button class="sb" data-sort="oldest">Oldest</button>
     <button class="sb" data-sort="title">Title A–Z</button>
     <button class="sb" data-sort="institution">Institution</button>
+  </div>
+
+  <div class="sort-bar">
+    <span class="sort-label">Language</span>
+    <div class="tag-filters" id="langFilters"></div>
   </div>
 
   <div class="col-head">
@@ -339,6 +344,7 @@ async function loadData() {
     }));
     setStatus('');
     renderFilters();
+    renderLangFilters();
     renderEntries();
   } catch (e) {
     setStatus('Could not load entries. Check your connection.');
@@ -491,12 +497,37 @@ function getSorted(arr) {
   return a;
 }
 
+let activeLangs = new Set();
+
+function renderLangFilters() {
+  const c = document.getElementById('langFilters');
+  c.innerHTML = '';
+  const langs = [...new Set(data.map(e => e.language).filter(Boolean))].sort();
+  const allBtn = document.createElement('button');
+  allBtn.className = 'tf' + (activeLangs.size === 0 ? ' active' : '');
+  allBtn.textContent = 'All';
+  allBtn.onclick = () => { activeLangs.clear(); renderLangFilters(); renderEntries(); };
+  c.appendChild(allBtn);
+  langs.forEach(l => {
+    const b = document.createElement('button');
+    b.className = 'tf' + (activeLangs.has(l) ? ' active' : '');
+    b.textContent = l;
+    b.onclick = () => {
+      if (activeLangs.has(l)) activeLangs.delete(l);
+      else activeLangs.add(l);
+      renderLangFilters(); renderEntries();
+    };
+    c.appendChild(b);
+  });
+}
+
 function filtered() {
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
   return data.filter(e => {
     const matchDisc = activeFilters.size === 0 || activeFilters.has(e.discipline);
+    const matchLang = activeLangs.size === 0 || activeLangs.has(e.language);
     const hay = [e.title, e.instructor, e.institution, e.notes, ...(e.tags || []), e.geography, e.year].join(' ').toLowerCase();
-    return matchDisc && (!q || hay.includes(q));
+    return matchDisc && matchLang && (!q || hay.includes(q));
   });
 }
 
